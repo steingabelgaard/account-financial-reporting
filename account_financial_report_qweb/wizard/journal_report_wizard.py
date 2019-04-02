@@ -3,6 +3,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 from odoo import api, fields, models, _
+from odoo.tools.safe_eval import safe_eval
 
 
 class JournalReportWizard(models.TransientModel):
@@ -13,15 +14,12 @@ class JournalReportWizard(models.TransientModel):
         comodel_name='res.company',
         default=lambda self: self.env.user.company_id,
         string='Company',
-        required=True,
+        required=False,
         ondelete='cascade',
     )
     date_range_id = fields.Many2one(
         comodel_name='date.range',
-        string='Date range',
-        domain="['|', "
-               "('company_id', '=', False),"
-               "('company_id', '=', company_id)]",
+        string='Date range'
     )
     date_from = fields.Date(
         string="Start date",
@@ -34,15 +32,14 @@ class JournalReportWizard(models.TransientModel):
     journal_ids = fields.Many2many(
         comodel_name='account.journal',
         string="Journals",
-        domain="[('company_id', '=', company_id)]",
-        required=True,
+        required=False,
     )
     move_target = fields.Selection(
         selection='_get_move_targets',
         default='all',
         required=True,
     )
-    with_currency = fields.Boolean()
+    foreign_currency = fields.Boolean()
     sort_option = fields.Selection(
         selection='_get_sort_options',
         string="Sort entries by",
@@ -86,34 +83,77 @@ class JournalReportWizard(models.TransientModel):
         self.date_from = self.date_range_id.date_start
         self.date_to = self.date_range_id.date_end
 
-    @api.multi
-    def export_as_pdf(self):
-        self.ensure_one()
-        return self._export()
+    @api.onchange('company_id')
+    def onchange_company_id(self):
+        """Handle company change."""
+        if self.company_id and self.date_range_id.company_id and \
+                self.date_range_id.company_id != self.company_id:
+            self.date_range_id = False
+        if self.company_id and self.journal_ids:
+            self.journal_ids = self.journal_ids.filtered(
+                lambda p: p.company_id == self.company_id or not p.company_id)
+        res = {'domain': {'journal_ids': []}}
+        if not self.company_id:
+            return res
+        else:
+            res['domain']['journal_ids'] += [
+                ('company_id', '=', self.company_id.id)]
+        return res
 
     @api.multi
-    def export_as_xlsx(self):
+    def button_export_html(self):
         self.ensure_one()
-        return self._export(xlsx_report=True)
+        action = self.env.ref(
+            'account_financial_report_qweb.action_report_journal_ledger')
+        vals = action.read()[0]
+        context1 = vals.get('context', {})
+        if isinstance(context1, basestring):
+            context1 = safe_eval(context1)
+        model = self.env['report_journal_qweb']
+        report = model.create(self._prepare_report_journal())
+        report.compute_data_for_report()
+        context1['active_id'] = report.id
+        context1['active_ids'] = report.ids
+        vals['context'] = context1
+        return vals
+
+    @api.multi
+    def button_export_pdf(self):
+        self.ensure_one()
+        report_type = 'qweb-pdf'
+        return self._export(report_type)
+
+    @api.multi
+    def button_export_xlsx(self):
+        self.ensure_one()
+        report_type = 'xlsx'
+        return self._export(report_type)
 
     @api.multi
     def _prepare_report_journal(self):
         self.ensure_one()
+        journals = self.journal_ids
+        if not journals:
+            # Not selecting a journal means that we'll display all journals
+            journals = self.env['account.journal'].search(
+                [('company_id', '=', self.company_id.id)])
         return {
             'date_from': self.date_from,
             'date_to': self.date_to,
             'move_target': self.move_target,
-            'with_currency': self.with_currency,
+            'foreign_currency': self.foreign_currency,
             'company_id': self.company_id.id,
-            'journal_ids': [(6, 0, self.journal_ids.ids)],
+            'journal_ids': [(6, 0, journals.ids)],
             'sort_option': self.sort_option,
             'group_option': self.group_option,
             'with_account_name': self.with_account_name,
         }
 
     @api.multi
-    def _export(self, xlsx_report=False):
+    def _export(self, report_type):
+        """Default export is PDF."""
         self.ensure_one()
         model = self.env['report_journal_qweb']
         report = model.create(self._prepare_report_journal())
-        return report.print_report(xlsx_report=xlsx_report)
+        report.compute_data_for_report()
+        return report.print_report(report_type)

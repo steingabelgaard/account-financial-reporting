@@ -17,8 +17,9 @@ class JournalXslx(abstract_report_xlsx.AbstractReportXslx):
         super(JournalXslx, self).__init__(
             name, table, rml, parser, header, store)
 
-    def _get_report_name(self):
-        return _('Journal')
+    def _get_report_name(self, report):
+        report_name = _('Journal Ledger')
+        return self._get_report_complete_name(report, report_name)
 
     def _get_report_columns(self, report):
         columns = [
@@ -76,7 +77,7 @@ class JournalXslx(abstract_report_xlsx.AbstractReportXslx):
             }
         ]
 
-        if report.with_currency:
+        if report.foreign_currency:
             columns += [
                 {
                     'header': _('Amount Currency'),
