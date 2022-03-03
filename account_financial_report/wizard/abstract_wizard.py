@@ -30,3 +30,12 @@ class AbstractWizard(models.AbstractModel):
             partners -= corp_partners
             partners |= corp_partners.mapped('commercial_partner_id')
             return partners.ids
+
+    def _default_accounts(self):
+        context = self.env.context
+        if (
+            context.get('active_ids') and
+            context.get('active_model') == 'account.account'
+        ):
+            accounts = self.env['account.account'].browse(context['active_ids'])
+            return accounts.ids

@@ -45,6 +45,7 @@ class GeneralLedgerReportWizard(models.TransientModel):
     account_ids = fields.Many2many(
         comodel_name='account.account',
         string='Filter accounts',
+        default=lambda self: self._default_accounts(),
     )
     centralize = fields.Boolean(string='Activate centralization',
                                 default=True)
@@ -193,8 +194,9 @@ class GeneralLedgerReportWizard(models.TransientModel):
             self.account_ids = self.env['account.account'].search([
                 ('company_id', '=', self.company_id.id),
                 ('user_type_id', 'in', self.account_type_ids.ids)])
-        else:
-            self.account_ids = None
+        # The below line makes it imposible to call from account tree
+        # else:
+        #    self.account_ids = None
 
     @api.onchange('partner_ids')
     def onchange_partner_ids(self):

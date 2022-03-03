@@ -32,11 +32,19 @@ class AgedPartnerBalanceWizard(models.TransientModel):
         comodel_name='account.account',
         string='Filter accounts',
     )
+    hide_account_at_0 = fields.Boolean(
+        string='Hide account ending balance at 0', default=False,
+        help='Use this filter to hide an account or a partner '
+             'with an ending balance at 0. '
+             'If partners are filtered, '
+             'debits and credits totals will not match the trial balance.'
+    )
     receivable_accounts_only = fields.Boolean()
     payable_accounts_only = fields.Boolean()
     partner_ids = fields.Many2many(
         comodel_name='res.partner',
         string='Filter partners',
+        default=lambda self: self._default_partners(),
     )
     show_move_line_details = fields.Boolean()
 
@@ -113,6 +121,7 @@ class AgedPartnerBalanceWizard(models.TransientModel):
         return {
             'date_at': self.date_at,
             'only_posted_moves': self.target_move == 'posted',
+            'hide_account_at_0': self.hide_account_at_0,
             'company_id': self.company_id.id,
             'filter_account_ids': [(6, 0, self.account_ids.ids)],
             'filter_partner_ids': [(6, 0, self.partner_ids.ids)],

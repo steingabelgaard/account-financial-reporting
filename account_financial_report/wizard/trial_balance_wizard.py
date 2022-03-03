@@ -174,8 +174,9 @@ class TrialBalanceReportWizard(models.TransientModel):
             elif self.payable_accounts_only:
                 domain += [('internal_type', '=', 'payable')]
             self.account_ids = self.env['account.account'].search(domain)
-        else:
-            self.account_ids = None
+        # The below line makes it imposible to call from account tree
+        # else:
+        #    self.account_ids = None
 
     @api.onchange('show_partner_details')
     def onchange_show_partner_details(self):
