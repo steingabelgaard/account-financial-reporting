@@ -6,15 +6,16 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: 2021-07-05 09:36+0000\n"
+"POT-Creation-Date: 2022-03-08 14:31+0000\n"
+"PO-Revision-Date: 2022-03-08 15:35+0100\n"
 "Last-Translator: Hans Henrik Gabelgaard <hhg@gabelgaard.org>\n"
 "Language-Team: none\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
+"Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 4.3.2\n"
+"X-Generator: Poedit 2.0.6\n"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_aged_partner_balance_lines_header
@@ -248,6 +249,7 @@ msgstr "Alder ≤ 90 d."
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/aged_partner_balance_xlsx.py:14
+#: model:ir.actions.act_window,name:account_financial_report.act_action_aged_partner_balance_wizard_partner_relation
 #: model:ir.actions.act_window,name:account_financial_report.action_aged_partner_balance_wizard
 #: model:ir.actions.client,name:account_financial_report.action_report_aged_partner_balance
 #: model:ir.actions.report,name:account_financial_report.action_report_aged_partner_balance_html
@@ -271,6 +273,16 @@ msgstr "Aldersfordelt partnersaldo guide"
 #: model:ir.actions.report,name:account_financial_report.action_report_aged_partner_balance_xlsx
 msgid "Aged Partner Balance XLSX"
 msgstr "Aldersfordelt partnersaldo XLSX"
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_aged_open_invoices_webkit
+msgid "Aged open invoices"
+msgstr ""
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_account_aged_trial_balance_webkit
+msgid "Aged partner balanced"
+msgstr "Aldersfordelt partnersaldo"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/wizard/journal_ledger_wizard.py:64
@@ -361,6 +373,11 @@ msgstr "Totalt forfaldent beløb valuta"
 #, python-format
 msgid "Amount cur."
 msgstr "Beløb valuta"
+
+#. module: account_financial_report
+#: model:ir.model.fields,help:account_financial_report.field_account_group__account_ids
+msgid "Assigned accounts."
+msgstr "Tildelte konti"
 
 #. module: account_financial_report
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_journal_all_taxes
@@ -475,6 +492,11 @@ msgstr "Underkonti"
 #, python-format
 msgid "Code"
 msgstr "Kode"
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_account_common_balance_report
+msgid "Common Balance Report"
+msgstr "Fælles balance rapport"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/journal_ledger_xlsx.py:165
@@ -1193,6 +1215,7 @@ msgstr "Rå start dato"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/general_ledger_xlsx.py:15
+#: model:ir.actions.act_window,name:account_financial_report.act_action_general_ledger_wizard_account_relation
 #: model:ir.actions.act_window,name:account_financial_report.act_action_general_ledger_wizard_partner_relation
 #: model:ir.actions.act_window,name:account_financial_report.action_general_ledger_wizard
 #: model:ir.actions.client,name:account_financial_report.action_report_general_ledger
@@ -1208,6 +1231,11 @@ msgstr "Generel posteringsrapport"
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_general_ledger_base
 msgid "General Ledger -"
 msgstr "Generel posteringsrapport -"
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_general_ledger_webkit
+msgid "General Ledger Report"
+msgstr "General posteringsrapport"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_general_ledger_report_wizard
@@ -1250,6 +1278,7 @@ msgid "Hide"
 msgstr "Skjul"
 
 #. module: account_financial_report
+#: model:ir.model.fields,field_description:account_financial_report.field_report_aged_partner_balance__hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report.field_report_general_ledger__hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report.field_report_open_items__hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report.field_report_trial_balance__hide_account_at_0
@@ -1262,6 +1291,7 @@ msgid "Hide Line"
 msgstr "Skjul linie"
 
 #. module: account_financial_report
+#: model:ir.model.fields,field_description:account_financial_report.field_aged_partner_balance_wizard__hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report.field_general_ledger_report_wizard__hide_account_at_0
 #: model:ir.model.fields,field_description:account_financial_report.field_open_items_report_wizard__hide_account_at_0
 msgid "Hide account ending balance at 0"
@@ -1334,8 +1364,8 @@ msgid ""
 "If flagged, no details will be displayed in the General Ledger report (the "
 "webkit one only), only centralized amounts per period."
 msgstr ""
-"Hvis markeret, vises ingen detaljer i rapporten General posteringsrapport ("
-"kun webkit), kun centraliserede beløb pr. periode."
+"Hvis markeret, vises ingen detaljer i rapporten General posteringsrapport "
+"(kun webkit), kun centraliserede beløb pr. periode."
 
 #. module: account_financial_report
 #: model:ir.model.fields,help:account_financial_report.field_general_ledger_report_wizard__partner_ungrouped
@@ -1457,6 +1487,11 @@ msgstr "Journal rapport XLSX"
 #, python-format
 msgid "Journals"
 msgstr "Journaler"
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_print_journal_webkit
+msgid "Journals Report"
+msgstr "Journalrapport"
 
 #. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_report_aged_partner_balance_move_line__label
@@ -1751,6 +1786,11 @@ msgid "Only Posted Moves"
 msgstr "Kun bogførte posteringer"
 
 #. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_open_invoices_webkit
+msgid "Open Invoices Report"
+msgstr "Åbn poster rapport"
+
+#. module: account_financial_report
 #: code:addons/account_financial_report/report/open_items_xlsx.py:13
 #: model:ir.actions.act_window,name:account_financial_report.action_open_items_wizard
 #: model:ir.actions.client,name:account_financial_report.action_report_open_items
@@ -1844,6 +1884,11 @@ msgstr ""
 "                     kumuleret aldersbalance"
 
 #. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_partner_balance_webkit
+msgid "Partner Balance Report"
+msgstr "Partner saldorapport"
+
+#. module: account_financial_report
 #: model:ir.model.fields,field_description:account_financial_report.field_report_journal_ledger_move_line__partner_id
 msgid "Partner ID"
 msgstr "Partner ID"
@@ -1853,6 +1898,11 @@ msgstr "Partner ID"
 #, python-format
 msgid "Partner Initial balance"
 msgstr "Partner Initiel balance"
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_partners_ledger_webkit
+msgid "Partner Ledger Report"
+msgstr "Partner posteringsrapport"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/aged_partner_balance_xlsx.py:225
@@ -2274,7 +2324,7 @@ msgid "Taxtags"
 msgstr "Momstags"
 
 #. module: account_financial_report
-#: code:addons/account_financial_report/wizard/general_ledger_wizard.py:187
+#: code:addons/account_financial_report/wizard/general_ledger_wizard.py:188
 #, python-format
 msgid ""
 "The Company in the General Ledger Report Wizard and in Date Range must be "
@@ -2320,6 +2370,7 @@ msgstr "Total"
 
 #. module: account_financial_report
 #: code:addons/account_financial_report/report/trial_balance_xlsx.py:14
+#: model:ir.actions.act_window,name:account_financial_report.act_action_trial_balance_wizard_account_relation
 #: model:ir.actions.act_window,name:account_financial_report.action_trial_balance_wizard
 #: model:ir.actions.client,name:account_financial_report.action_report_trial_balance
 #: model:ir.actions.report,name:account_financial_report.action_report_trial_balance_html
@@ -2333,6 +2384,11 @@ msgstr "Råbalance"
 #: model_terms:ir.ui.view,arch_db:account_financial_report.report_trial_balance_base
 msgid "Trial Balance -"
 msgstr "Råbalance-"
+
+#. module: account_financial_report
+#: model:ir.model,name:account_financial_report.model_trial_balance_webkit
+msgid "Trial Balance Report"
+msgstr "Råbalance rapport"
 
 #. module: account_financial_report
 #: model:ir.model,name:account_financial_report.model_trial_balance_report_wizard
@@ -2359,6 +2415,7 @@ msgid "Unaffected Earnings Account"
 msgstr "Ikke-påvirket indtjeningskonto"
 
 #. module: account_financial_report
+#: model:ir.model.fields,help:account_financial_report.field_aged_partner_balance_wizard__hide_account_at_0
 #: model:ir.model.fields,help:account_financial_report.field_general_ledger_report_wizard__hide_account_at_0
 #: model:ir.model.fields,help:account_financial_report.field_open_items_report_wizard__hide_account_at_0
 msgid ""

@@ -159,6 +159,8 @@ class AbstractReportXslx(models.AbstractModel):
                 self.row_pos, col_name,
                 self.row_pos, col_name + col_count_filter_name - 1,
                 title, self.format_header_left)
+            if isinstance(value, datetime.date):
+                value = format_date(self.env, value)
             self.sheet.merge_range(
                 self.row_pos, col_value,
                 self.row_pos, col_value + col_count_filter_value - 1,
