@@ -60,11 +60,11 @@ class ActivityStatement(models.AbstractModel):
                               account_type):
         return str(self._cr.mogrify("""
             SELECT m.name AS move_id, l.partner_id, l.date,
-       CASE WHEN (aj.type IN ('sale', 'purchase'))
+       CASE WHEN (aj.type IN ('sale', 'purchase', 'general'))
                 THEN l.name
                 ELSE '/'
             END as name,
-       CASE WHEN (aj.type IN ('sale', 'purchase'))
+       CASE WHEN (aj.type IN ('sale', 'purchase', 'general'))
                 THEN l.ref
            WHEN (aj.type in ('bank', 'cash'))
                 THEN 'Payment'
@@ -93,11 +93,11 @@ class ActivityStatement(models.AbstractModel):
                 AND l.date <= %(date_end)s
                 AND m.state IN ('posted')
             GROUP BY l.partner_id, m.name, l.date, l.date_maturity,
-                CASE WHEN (aj.type IN ('sale', 'purchase'))
+                CASE WHEN (aj.type IN ('sale', 'purchase', 'general'))
                     THEN l.name
                     ELSE '/'
                 END,
-                CASE WHEN (aj.type IN ('sale', 'purchase'))
+                CASE WHEN (aj.type IN ('sale', 'purchase', 'general'))
                     THEN l.ref
                 WHEN (aj.type in ('bank', 'cash'))
                     THEN 'Payment'
