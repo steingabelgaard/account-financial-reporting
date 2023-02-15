@@ -73,6 +73,8 @@ odoo.define('account_financial_report.account_financial_report_backend', functio
                     cp_content: {$buttons: this.$buttons},
                 };
                 return this.update_control_panel(status);
+            } else {
+                return this.update_control_panel();
             }
         },
         do_show: function () {
